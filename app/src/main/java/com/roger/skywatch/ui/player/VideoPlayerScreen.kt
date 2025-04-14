@@ -92,6 +92,12 @@ fun VideoPlayerScreen(
                 style = MaterialTheme.typography.labelSmall
             )
         }
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = "影片描述", style = MaterialTheme.typography.titleMedium)
+            Text(text = videoInfo.snippet.description, style = MaterialTheme.typography.bodyMedium)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "留言：\n(留言功能尚未實作)", style = MaterialTheme.typography.bodySmall)
+        }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = onBack,

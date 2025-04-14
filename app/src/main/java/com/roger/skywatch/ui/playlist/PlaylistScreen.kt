@@ -52,6 +52,7 @@ fun PlaylistScreen(
     val isLoading by viewModel.loading.collectAsState()
     val errorMsg by viewModel.errorMsg.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+    val channelInfo by viewModel.channelInfo.collectAsState()
 
     // 根據搜尋關鍵字進行過濾
     val filteredItems = if (searchQuery.isNotBlank()) {
@@ -117,6 +118,7 @@ fun PlaylistScreen(
                     val video: Video = item.toVideo()
                     VideoCard(
                         video = video,
+                        channelAvatarUrl = channelInfo?.snippet?.thumbnails?.get("default")?.url,
                         onClick = { onVideoClick(video) }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
