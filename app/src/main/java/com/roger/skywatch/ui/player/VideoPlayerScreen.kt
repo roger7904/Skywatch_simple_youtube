@@ -4,12 +4,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,13 +27,16 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.roger.skywatch.data.model.Video
+import com.roger.skywatch.ui.player.components.CommentsBlock
+import com.roger.skywatch.viewmodel.VideoCommentsViewModel
 import com.roger.skywatch.viewmodel.VideoPlayerViewModel
 
 @Composable
 fun VideoPlayerScreen(
     videoInfo: Video,
     onBack: () -> Unit,
-    viewModel: VideoPlayerViewModel = hiltViewModel()
+    viewModel: VideoPlayerViewModel = hiltViewModel(),
+    videoCommentsViewModel: VideoCommentsViewModel = hiltViewModel()
 ) {
     BackHandler {
         onBack()
@@ -82,7 +85,12 @@ fun VideoPlayerScreen(
                 .fillMaxWidth()
                 .height(240.dp)
         )
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .height(300.dp)
+                .verticalScroll(rememberScrollState()),
+        ) {
             Text(text = videoDetail!!.snippet.title, style = MaterialTheme.typography.titleSmall)
             Text(text = "頻道：${videoDetail!!.snippet.channelTitle}", style = MaterialTheme.typography.bodySmall)
             Text(
@@ -91,19 +99,17 @@ fun VideoPlayerScreen(
                         videoDetail!!.snippet.publishedAt.substring(11, 19),
                 style = MaterialTheme.typography.labelSmall
             )
-        }
-        Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "影片描述", style = MaterialTheme.typography.titleMedium)
             Text(text = videoInfo.snippet.description, style = MaterialTheme.typography.bodyMedium)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "留言：\n(留言功能尚未實作)", style = MaterialTheme.typography.bodySmall)
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = onBack,
-            modifier = Modifier.padding(horizontal = 16.dp)
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(horizontal = 16.dp)
         ) {
-            Text("返回播放清單")
+            CommentsBlock(videoId = videoInfo.id, viewModel = videoCommentsViewModel)
         }
     }
 }

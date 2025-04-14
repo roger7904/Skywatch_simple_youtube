@@ -1,6 +1,7 @@
 package com.roger.skywatch.data.api
 
 import com.roger.skywatch.data.api.response.ChannelResponse
+import com.roger.skywatch.data.api.response.CommentThreadsResponse
 import com.roger.skywatch.data.api.response.PlaylistResponse
 import com.roger.skywatch.data.api.response.VideoDetailResponse
 import retrofit2.http.GET
@@ -30,4 +31,14 @@ interface YoutubeApiService {
         @Query("id") videoId: String,
         @Query("key") apiKey: String
     ): VideoDetailResponse
+
+    @GET("commentThreads")
+    suspend fun getVideoComments(
+        @Query("part") part: String = "snippet,replies",
+        @Query("videoId") videoId: String,
+        @Query("textFormat") textFormat: String = "plainText",
+        @Query("maxResults") maxResults: Int = 20,
+        @Query("pageToken") pageToken: String? = null,
+        @Query("key") apiKey: String
+    ): CommentThreadsResponse
 }

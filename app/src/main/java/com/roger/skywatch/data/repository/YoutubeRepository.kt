@@ -2,6 +2,7 @@ package com.roger.skywatch.data.repository
 
 import com.roger.skywatch.BuildConfig
 import com.roger.skywatch.data.api.YoutubeApiService
+import com.roger.skywatch.data.api.response.CommentThreadsResponse
 import com.roger.skywatch.data.api.response.PlaylistResponse
 import com.roger.skywatch.data.api.response.VideoDetailResponse
 import com.roger.skywatch.data.model.Channel
@@ -48,5 +49,18 @@ class YoutubeRepository @Inject constructor(
         )
         // 假設 response.items 非空
         return response.items.first()
+    }
+
+    override suspend fun getVideoComments(
+        videoId: String,
+        maxResults: Int,
+        pageToken: String?
+    ): CommentThreadsResponse {
+        return apiService.getVideoComments(
+            videoId = videoId,
+            maxResults = maxResults,
+            pageToken = pageToken,
+            apiKey = apiKey,
+        )
     }
 }
