@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.roger.skywatch.data.model.Channel
 import com.roger.skywatch.data.model.PlaylistItem
-import com.roger.skywatch.data.repository.YoutubeRepository
+import com.roger.skywatch.data.repository.IYoutubeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlaylistViewModel @Inject constructor(
-    private val repository: YoutubeRepository
+    private val repository: IYoutubeRepository
 ) : ViewModel() {
 
     private val _playlistItems = MutableStateFlow<List<PlaylistItem>>(emptyList())

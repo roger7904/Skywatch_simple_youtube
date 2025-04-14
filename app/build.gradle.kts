@@ -99,4 +99,7 @@ dependencies {
 
     // androidyoutubeplayer
     implementation(libs.androidyoutubeplayer)
+
+    // kotlinx coroutines test
+    testImplementation(libs.kotlinx.coroutines.test)
 }
